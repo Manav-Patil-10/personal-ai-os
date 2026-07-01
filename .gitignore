@@ -1,0 +1,13 @@
+.env
+memory.db
+notes/
+notes_index.json
+tasks.json
+briefings.log
+__pycache__/
+gmail_token.json
+gmail_credentials.json
+build/
+dist/
+installer/
+*.spec
