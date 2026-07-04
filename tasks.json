@@ -1,28 +1,12 @@
 [
-  {
-    "id": 1,
-    "title": "Learn about embeddings",
-    "done": true,
-    "created": "2026-06-22T16:45:57"
-  },
-  {
-    "id": 2,
-    "title": "Finish portfolio",
-    "done": false
-  },
-  {
-    "id": 3,
-    "title": "Phase 3: Integrate NLP capabilities to improve language understanding and generation",
-    "done": false
-  },
-  {
-    "id": 4,
-    "title": "Test Desktop App",
-    "done": false
-  },
-  {
-    "id": 5,
-    "title": "Test Onboarding",
-    "done": false
-  }
+  {"id": 1, "title": "Solve one program in Programming", "done": false},
+  {"id": 2, "title": "Solve one program in Mathematics", "done": false},
+  {"id": 3, "title": "Solve one program in Data Analysis", "done": false},
+  {"id": 4, "title": "Solve one program in Machine Learning", "done": false},
+  {"id": 5, "title": "Solve one program in Deep Learning", "done": false},
+  {"id": 6, "title": "Solve one program in Generative AI", "done": false},
+  {"id": 7, "title": "Solve one program in MLOps", "done": false},
+  {"id": 8, "title": "Solve one program in Data Structures & Algorithms", "done": false},
+  {"id": 9, "title": "Complete Projects", "done": false},
+  {"id": 10, "title": "Apply", "done": false}
 ]

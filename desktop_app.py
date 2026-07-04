@@ -340,6 +340,20 @@ class MainWindow(QMainWindow):
         """)
         self.input_field.returnPressed.connect(self.send_message)
         input_layout.addWidget(self.input_field)
+        
+        voice_btn = QPushButton("🎤")
+        voice_btn.setFixedSize(44, 44)
+        voice_btn.setFont(QFont("Segoe UI", 12))
+        voice_btn.setStyleSheet("""
+            QPushButton {
+                background: #7c6af7;
+                color: white;
+                border: none;
+                border-radius: 10px;
+            }
+            QPushButton:hover { background: #534AB7; }
+        """)
+        input_layout.addWidget(voice_btn)
 
         send_btn = QPushButton("Send")
         send_btn.setFont(QFont("Segoe UI", 11))
@@ -356,6 +370,7 @@ class MainWindow(QMainWindow):
         """)
         send_btn.clicked.connect(self.send_message)
         input_layout.addWidget(send_btn)
+        voice_btn.clicked.connect(self.on_voice_button_clicked)
 
         chat_layout.addWidget(input_frame)
         main_layout.addWidget(chat_frame)
@@ -385,6 +400,18 @@ class MainWindow(QMainWindow):
         if not text:
             return
         self.input_field.clear()
+
+    def on_voice_button_clicked(self):
+        """Start listening for voice input."""
+        from voice_input import VoiceWorker
+        self.voice_worker = VoiceWorker()
+        self.voice_worker.transcribed.connect(self.on_voice_transcribed)
+        self.voice_worker.start()
+
+    def on_voice_transcribed(self, text):
+        """Voice was transcribed — put it in input field and send."""
+        self.input_field.setText(text)
+        self.send_message()
 
         # Add user bubble
         bubble = MessageBubble(text, is_user=True)

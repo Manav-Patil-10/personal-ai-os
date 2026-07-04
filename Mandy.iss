@@ -13,7 +13,7 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 UninstallDisplayIcon={app}\Mandy.exe
-LicenseFile=LICENSE.txt
+
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
