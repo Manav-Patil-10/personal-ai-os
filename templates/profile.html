@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mandy Profile</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+            min-height: 100vh;
+            color: #e8e8e8;
+        }
+        header {
+            background: #0f1419;
+            border-bottom: 2px solid #d4af37;
+            padding: 20px 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 28px;
+            color: #d4af37;
+            font-weight: 900;
+        }
+        nav a {
+            color: #a0a0a0;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #d4af37;
+        }
+        .profile {
+            padding: 60px 0;
+        }
+        .profile-box {
+            background: #1a2332;
+            border: 1px solid #d4af37;
+            padding: 40px;
+            border-radius: 10px;
+        }
+        h1 {
+            color: #d4af37;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        .profile-item {
+            margin-bottom: 25px;
+        }
+        .profile-label {
+            color: #d4af37;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .profile-value {
+            color: #a0a0a0;
+            font-size: 16px;
+            word-break: break-all;
+        }
+        .btn {
+            display: inline-block;
+            background: #d4af37;
+            color: #0f1419;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background: transparent;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">⚡ MANDY</div>
+                <div>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/logout">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="profile">
+            <div class="profile-box">
+                <h1>Your Profile</h1>
+                
+                <div class="profile-item">
+                    <span class="profile-label">Username</span>
+                    <span class="profile-value">{{ user.username }}</span>
+                </div>
+
+                <div class="profile-item">
+                    <span class="profile-label">Email</span>
+                    <span class="profile-value">{{ user.email }}</span>
+                </div>
+
+                <div class="profile-item">
+                    <span class="profile-label">Member Since</span>
+                    <span class="profile-value">{{ user.created_at }}</span>
+                </div>
+
+                <div class="profile-item">
+                    <span class="profile-label">API Key</span>
+                    <span class="profile-value">{{ user.api_key or 'Not generated' }}</span>
+                </div>
+
+                <a href="/dashboard" class="btn">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

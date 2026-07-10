@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mandy — Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container { max-width: 400px; width: 100%; }
+        .form-box {
+            background: #1a2332;
+            border: 1px solid #d4af37;
+            padding: 50px;
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #d4af37;
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            color: #a0a0a0;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            background: #0f1419;
+            border: 1px solid #d4af37;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input:focus {
+            outline: none;
+            border-color: #fff;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #d4af37;
+            color: #0f1419;
+            border: none;
+            border-radius: 5px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: transparent;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+        }
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #a0a0a0;
+        }
+        .signup-link a {
+            color: #d4af37;
+            text-decoration: none;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+        .error { background: rgba(231, 76, 60, 0.2); color: #e74c3c; display: block; }
+        .success { background: rgba(39, 174, 96, 0.2); color: #27ae60; display: block; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h1>⚡ MANDY</h1>
+            <form id="loginForm">
+                <div id="message" class="message"></div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <div class="signup-link">
+                Don't have an account? <a href="/signup">Sign up</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const response = await fetch('/login', {
+                method: 'POST',
+                body: formData
+            });
+            const data = await response.json();
+            const messageEl = document.getElementById('message');
+            
+            if (response.ok) {
+                messageEl.textContent = data.success;
+                messageEl.className = 'message success';
+                setTimeout(() => window.location.href = data.redirect, 1000);
+            } else {
+                messageEl.textContent = data.error;
+                messageEl.className = 'message error';
+            }
+        });
+    </script>
+</body>
+</html>

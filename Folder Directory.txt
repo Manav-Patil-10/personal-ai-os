@@ -1,0 +1,1 @@
+cd "C:\Users\RoG\OneDrive\Desktop\ai-project"
