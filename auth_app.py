@@ -190,6 +190,50 @@ def chat():
     except Exception as e:
         return jsonify({'error': f'AI error: {str(e)}'}), 500
 
+@app.route('/v1/chat/completions', methods=['POST'])
+def proxy_chat():
+    auth_header = request.headers.get('Authorization', '')
+    if not auth_header.startswith('Bearer '):
+        return jsonify({'error': 'Unauthorized: Bearer token missing'}), 401
+    
+    api_key = auth_header.replace('Bearer ', '')
+    user = User.query.filter_by(api_key=api_key).first()
+    
+    if not user:
+        return jsonify({'error': 'Unauthorized: Invalid API key'}), 401
+        
+    try:
+        import requests
+        groq_api_key = os.environ.get('GROQ_API_KEY')
+        if not groq_api_key:
+            return jsonify({'error': 'Server configuration error'}), 500
+            
+        headers = {
+            'Authorization': f'Bearer {groq_api_key}',
+            'Content-Type': 'application/json'
+        }
+        
+        response = requests.post(
+            'https://api.groq.com/openai/v1/chat/completions', 
+            headers=headers, 
+            json=request.get_json(),
+            stream=True
+        )
+        
+        # If the client requested streaming, we stream the response back
+        if request.get_json().get('stream', False):
+            def generate():
+                for chunk in response.iter_content(chunk_size=1024):
+                    if chunk:
+                        yield chunk
+            from flask import Response
+            return Response(generate(), mimetype='text/event-stream')
+            
+        return jsonify(response.json()), response.status_code
+        
+    except Exception as e:
+        return jsonify({'error': f'Proxy error: {str(e)}'}), 500
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
