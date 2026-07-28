@@ -37,6 +37,10 @@ class User(db.Model):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+# Create tables on import (needed for gunicorn on Railway)
+with app.app_context():
+    db.create_all()
+
 def login_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
