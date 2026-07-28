@@ -14,7 +14,13 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-mandy')
 
 # Use PostgreSQL on Railway (DATABASE_URL), fallback to SQLite locally
-database_url = os.environ.get('DATABASE_URL', 'sqlite:///mandy.db')
+database_url = os.environ.get('DATABASE_URL', '')
+if not database_url:
+    # Use /tmp on Railway (writable), local path otherwise
+    if os.environ.get('RAILWAY_ENVIRONMENT'):
+        database_url = 'sqlite:////tmp/mandy.db'
+    else:
+        database_url = 'sqlite:///mandy.db'
 # Railway provides postgres:// but SQLAlchemy needs postgresql://
 if database_url.startswith('postgres://'):
     database_url = database_url.replace('postgres://', 'postgresql://', 1)
@@ -40,6 +46,14 @@ class User(db.Model):
 # Create tables on import (needed for gunicorn on Railway)
 with app.app_context():
     db.create_all()
+
+@app.route('/health')
+def health():
+    try:
+        user_count = User.query.count()
+        return jsonify({'status': 'ok', 'database': database_url.split('?')[0], 'users': user_count}), 200
+    except Exception as e:
+        return jsonify({'status': 'error', 'error': str(e)}), 500
 
 def login_required(f):
     @wraps(f)
